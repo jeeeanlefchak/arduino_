@@ -46,12 +46,25 @@ void loop(){
           client.println("<HTML>");
           client.println("<BODY>");
           client.println("<br />");
-          client.print("Temperatura: ");
+          client.print("<h4> Temperatura: ");
           client.println(DHT.temperature);
           client.print("Humidade: ");
           client.println(DHT.humidity);
-          client.println("<a href=\"/?esquerda\"> < </a>");
-          client.println("<a href=\"/?direita\"> > </a><br />");   
+          client.println("</h4>");
+          if(readString.indexOf("?ligada") > 0)
+          {
+          client.println("<h4> <a href=\"/?desligado\"> <button style='width:100%; font-size:2rem'> Desligar</button> </a> </h4>"); 
+            digitalWrite(Pin, HIGH);
+          }
+          else {
+             client.println("<h4> <a href=\"/?ligada\"> <button style='width:100%; font-size:2rem'> Ligar</button> </a> </h4>");
+            if(readString.indexOf("?desligado") > 0)
+            {
+              digitalWrite(Pin, LOW);
+            }
+          }
+          
+           
            
           client.println("</BODY>");
           client.println("</HTML>");
@@ -59,18 +72,7 @@ void loop(){
           delay(1);
           client.stop();
            
-          if(readString.indexOf("?esquerda") > 0)
-          {
-            digitalWrite(Pin, HIGH);
-            delay(10);
-            digitalWrite(Pin, LOW);
-          }
-          else {
-            if(readString.indexOf("?direita") > 0)
-            {
-              digitalWrite(Pin, LOW);
-            }
-          }
+          
           readString="";    
         }
       }
